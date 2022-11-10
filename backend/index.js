@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const { getId, getSimilarArtists } = require('./spotify-search.js')
 require('dotenv').config()
@@ -25,13 +26,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
+app.use(cors())
+
 app.post(('/'), async (req, res) => {
+  try {
     const artist = new Artist({ name: req.body.name, image: req.body.image, similarArtists: req.body.similarArtists });
     artist.save().then(() => console.log('Artist added to DB'));
     res.status(201).json('Item created')
+  } catch {
+    return res.status(500).send('APP ERROR')
+  }
 })
 
 app.get(('/api/:artist'), async (req, res) => {
+  try{
+  console.log(req.params.artist)
     const artist = await Artist.find({ name: req.params.artist });
     if (artist[0]) {
       console.log('Artist restored from DB')
@@ -48,6 +57,9 @@ app.get(('/api/:artist'), async (req, res) => {
     await addedArtistToDB.save().then(() => console.log('Artist added to DB'));
     const artistFromDB = await Artist.find({ name: newArtist.name });
     return res.status(201).json(artistFromDB)
+} catch {
+  return res.status(500).send('APP ERROR')
+}
 })
 
 app.listen(8000, () => {
