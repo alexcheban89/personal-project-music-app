@@ -40,17 +40,17 @@ app.post(('/'), async (req, res) => {
 
 app.get(('/api/:artist'), async (req, res) => {
   try{
-  console.log(req.params.artist)
-    const artist = await Artist.find({ name: req.params.artist });
-    if (artist[0]) {
+    const reqArtist = req.params.artist
+    const artist = await Artist.findOne({ name: { $regex: new RegExp(reqArtist), $options: 'i' }});
+    if (artist) {
       console.log('Artist restored from DB')
       return res.status(201).json({
-        name : artist[0].name,
-        image: artist[0].image,
-        similarArtists: artist[0].similarArtists
+        name : artist.name,
+        image: artist.image,
+        similarArtists: artist.similarArtists
     })
   }
-    const spotifyArtistId = await getId(req.params.artist);
+    const spotifyArtistId = await getId(reqArtist);
     const newArtist = spotifyArtistId.artists.items[0]
     const similarArtists = await getSimilarArtists(newArtist.id)
     const addedArtistToDB = new Artist({ name: newArtist.name, image: newArtist.images[0].url, similarArtists: similarArtists });
