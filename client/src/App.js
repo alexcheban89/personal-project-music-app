@@ -10,7 +10,7 @@ const [searchTerm, setSearchTerm] = useState('')
 
 return <>
 <Form input={input} setInput={setInput} setSearchTerm={setSearchTerm} />
-<Artists searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+<Artists searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
 </>
 }
 

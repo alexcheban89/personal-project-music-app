@@ -1,0 +1,17 @@
+.card {
+    text-align: center;
+    min-width: 220px;
+    background-color: rgb(26, 26, 26);
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+}
+
+img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 200px; 
+    height: 150px;
+    object-fit: cover;
+}

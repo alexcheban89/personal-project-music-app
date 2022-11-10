@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-// import Card from '../card';
+import Card from '../cards';
 import './index.scss';
 
 const Artists = ({ searchTerm, setSearchTerm }) => {
-  const [similarArtists, setSimilarArtists] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [similarArtists, setSimilarArtists] = useState([]);
   const [hasErrored, setHasErrored] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  document.body.style.background = "white";
+  document.body.style.opacity = "1";
 
   useEffect(() => {
     const fetchArtists = async (search) => {
@@ -14,7 +16,7 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
         setTimeout(async() => {
         const response = await fetch(`http://localhost:8000/api/${search}`);
         const artist = await response.json()
-        setSimilarArtists(artist);
+        setSimilarArtists(artist.similarArtists);
         setSearchTerm('')
         setIsLoading(false)
         }
@@ -22,6 +24,7 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
       } catch (err) {
         setHasErrored(true);
         setIsLoading(false);
+        setSearchTerm('');
       }
     };
 
@@ -30,15 +33,16 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
     }
   }, [searchTerm, setSearchTerm]);
 
-  if (similarArtists === 'WOOPS') {
-    return <p>WOOPS, SOMETHING WENT WRONG</p>;
+  if (similarArtists === undefined) {
+    return <p className='alert'>WOOPS, SOMETHING WENT WRONG</p>;
   }
 
   if (hasErrored) {
-    return <p>ARE YOU SURE SERVER IS RUNNING?!</p>;
+    return <p className='alert'>ARE YOU SURE SERVER IS RUNNING?!</p>;
   }
 
   if (isLoading) {
+    document.body.style.background = "rgba(0, 0, 0, 1)";
     return <>
     <div className="container">
     <div className="everlib-logo">
@@ -52,8 +56,16 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
   }
 
   return (
-    <>
-    </>
+      <ul className='cards'>
+      {similarArtists.map((artist, key) => {
+      return <Card key={key}
+      name={artist.name} 
+      images={(artist.images[2]).url} 
+      genres={artist.genres}
+      popularity={artist.popularity}
+      />
+    })}
+    </ul>
   );
 };
 

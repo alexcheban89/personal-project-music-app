@@ -1,4 +1,4 @@
-// import './index.scss';
+import './index.scss';
 import React from 'react';
 
 const Form = ({ input, setInput, setSearchTerm }) => {

@@ -41,6 +41,7 @@ app.post(('/'), async (req, res) => {
 app.get(('/api/:artist'), async (req, res) => {
   try{
     const reqArtist = req.params.artist
+    console.log(reqArtist)
     const artist = await Artist.findOne({ name: { $regex: new RegExp(reqArtist), $options: 'i' }});
     if (artist) {
       console.log('Artist restored from DB')
@@ -56,7 +57,8 @@ app.get(('/api/:artist'), async (req, res) => {
     const addedArtistToDB = new Artist({ name: newArtist.name, image: newArtist.images[0].url, similarArtists: similarArtists });
     await addedArtistToDB.save().then(() => console.log('Artist added to DB'));
     const artistFromDB = await Artist.find({ name: newArtist.name });
-    return res.status(201).json(artistFromDB)
+    const response = artistFromDB[0]
+    return res.status(201).json(response)
 } catch {
   return res.status(500).json('WOOPS')
 }

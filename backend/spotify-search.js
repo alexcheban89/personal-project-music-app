@@ -11,15 +11,14 @@ const getId = async (artist) => await fetch(`https://api.spotify.com/v1/search?q
 
 const getSimilarArtists = async (artistId) => {
     console.log('FETCHING FROM SPOTIFY')
-    return await fetch(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, {
+    const res = await fetch(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, {
     headers: {
     "Accept": "application/json",
     "Content-Type": "application/json",
     "Authorization": `Bearer ${process.env.SPOTIFY_KEY}`,
-    }
-})
-  .then(res => res.json())
-  .then (data => data.artists)
+    }})
+    const data = await res.json()
+    return data.artists
 }
 
 module.exports.getId = getId;
