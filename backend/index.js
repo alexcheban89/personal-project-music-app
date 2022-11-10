@@ -20,7 +20,7 @@ async function connect() {
 
 connect();
 
-const Artist = mongoose.model('artist', { name: String, image: String, similarArtists: Array });
+const Artist = mongoose.model('artist', { name: String, image: String, similarArtists: Array, description: String });
 
 app.use(bodyParser.urlencoded({ extended: false }))
 

@@ -16,7 +16,7 @@ const Form = ({ input, setInput, setSearchTerm }) => {
     <h1>LISTEN TO ME</h1>
     <form className="form" onSubmit={submitHandler}>
     <div className="rainbow">
-    <input value={input} onChange={titleInputHandler} type="text" className="form__input" id="txtTodoItemToAdd" placeholder="Type your favourite artist" />
+    <input value={input} onChange={titleInputHandler} type="text" className="form__input" id="txtTodoItemToAdd" placeholder="Search for artist" />
     </div>
     </form>
     </>

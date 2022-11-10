@@ -4,6 +4,7 @@ import './index.scss';
 
 const Artists = ({ searchTerm, setSearchTerm }) => {
   const [similarArtists, setSimilarArtists] = useState([]);
+  const [artist, setArtist] = useState([])
   const [hasErrored, setHasErrored] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   document.body.style.background = "white";
@@ -16,6 +17,7 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
         setTimeout(async() => {
         const response = await fetch(`http://localhost:8000/api/${search}`);
         const artist = await response.json()
+        setArtist(artist)
         setSimilarArtists(artist.similarArtists);
         setSearchTerm('')
         setIsLoading(false)
@@ -56,6 +58,12 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
   }
 
   return (
+      <>
+      <div className='artist-card'>
+      <h2>{artist.name}</h2>
+      <img className='card-image' src={artist.image} alt={artist.name} />
+      </div>
+      <h2 className='card-similar-artist'>SIMILAR ARTISTS</h2>
       <ul className='cards'>
       {similarArtists.map((artist, key) => {
       return <Card key={key}
@@ -66,6 +74,7 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
       />
     })}
     </ul>
+    </>
   );
 };
 
