@@ -12,7 +12,6 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
       try {
         const similarArtistsFetch = await fetch(`http://localhost:8000/api/${search}`);
         const artist = await similarArtistsFetch.json()
-        console.log(artist)
         setSimilarArtists(artist);
         setSearchTerm('')
         setIsLoading(false)
