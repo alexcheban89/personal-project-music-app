@@ -1,0 +1,43 @@
+.card-image {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 300px; 
+    height: 300px;
+    object-fit: cover;
+  }
+  
+.artist-card {
+    margin-left: 20%;
+    margin-right: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1em;
+    text-align: center;
+    max-width: auto;
+    background-color: rgb(255, 255, 255);
+    color: rgb(20, 20, 20);
+    border: 1px solid black;
+    border-radius: 12px;
+  }
+
+.card-similar-artist {
+    margin-top: 2em;
+    text-align: center;
+  }
+
+h2, p {
+    padding: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+p {
+    padding: 2em;
+    font-size: 17px;
+}
+  

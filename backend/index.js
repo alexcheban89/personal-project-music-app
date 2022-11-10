@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const { getId, getSimilarArtists } = require('./spotify-search.js')
+const { getId, getSimilarArtists, getDescription } = require('./spotify-search.js')
 require('dotenv').config()
 
 const uri =
@@ -41,21 +41,19 @@ app.post(('/'), async (req, res) => {
 app.get(('/api/:artist'), async (req, res) => {
   try{
     const reqArtist = req.params.artist
-    console.log(reqArtist)
+    console.log(`FETCHING ARTIST DATA FROM DB: ${reqArtist}`)
     const artist = await Artist.findOne({ name: { $regex: new RegExp(reqArtist), $options: 'i' }});
     if (artist) {
-      console.log('Artist restored from DB')
-      return res.status(201).json({
-        name : artist.name,
-        image: artist.image,
-        similarArtists: artist.similarArtists
-    })
+      return res.status(201).json(artist)
   }
+    console.log('NO ENTRY FOUND IN DB')
     const spotifyArtistId = await getId(reqArtist);
     const newArtist = spotifyArtistId.artists.items[0]
     const similarArtists = await getSimilarArtists(newArtist.id)
-    const addedArtistToDB = new Artist({ name: newArtist.name, image: newArtist.images[0].url, similarArtists: similarArtists });
-    await addedArtistToDB.save().then(() => console.log('Artist added to DB'));
+    const descriptionArtist = await getDescription(newArtist.name)
+    const addedArtistToDB = new Artist({ name: newArtist.name, image: newArtist.images[0].url, similarArtists: similarArtists, description: descriptionArtist });
+    await addedArtistToDB.save()
+    console.log(`ARTIST ADDED TO DB: ${newArtist.name}`)
     const artistFromDB = await Artist.find({ name: newArtist.name });
     const response = artistFromDB[0]
     return res.status(201).json(response)

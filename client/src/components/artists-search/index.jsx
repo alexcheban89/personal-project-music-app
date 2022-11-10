@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ArtistCard from '../artist-card';
 import Card from '../cards';
 import './index.scss';
 
@@ -22,7 +23,7 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
         setSearchTerm('')
         setIsLoading(false)
         }
-        , 2000);
+        , 300);
       } catch (err) {
         setHasErrored(true);
         setIsLoading(false);
@@ -59,14 +60,12 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
 
   return (
       <>
-      <div className='artist-card'>
-      <h2>{artist.name}</h2>
-      <img className='card-image' src={artist.image} alt={artist.name} />
-      </div>
-      <h2 className='card-similar-artist'>SIMILAR ARTISTS</h2>
+      <ArtistCard artist={artist}/>
       <ul className='cards'>
       {similarArtists.map((artist, key) => {
-      return <Card key={key}
+      return <Card 
+      searchTerm={searchTerm} 
+      setSearchTerm={setSearchTerm} key={key}
       name={artist.name} 
       images={(artist.images[2]).url} 
       genres={artist.genres}
