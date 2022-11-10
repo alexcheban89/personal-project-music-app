@@ -58,7 +58,7 @@ app.get(('/api/:artist'), async (req, res) => {
     const artistFromDB = await Artist.find({ name: newArtist.name });
     return res.status(201).json(artistFromDB)
 } catch {
-  return res.status(500).send('APP ERROR')
+  return res.status(500).json('WOOPS')
 }
 })
 

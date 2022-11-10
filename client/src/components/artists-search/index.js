@@ -10,8 +10,8 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
   useEffect(() => {
     const fetchArtists = async (search) => {
       try {
-        const similarArtistsFetch = await fetch(`http://localhost:8000/api/${search}`);
-        const artist = await similarArtistsFetch.json()
+        const response = await fetch(`http://localhost:8000/api/${search}`);
+        const artist = await response.json()
         setSimilarArtists(artist);
         setSearchTerm('')
         setIsLoading(false)
@@ -26,8 +26,12 @@ const Artists = ({ searchTerm, setSearchTerm }) => {
     }
   }, [searchTerm]);
 
+  if (similarArtists === 'WOOPS') {
+    return <p>WOOPS, SOMETHING WENT WRONG</p>;
+  }
+
   if (hasErrored) {
-    return <p>Error: Could not load movies!</p>;
+    return <p>ARE YOU SURE SERVER IS RUNNING?!</p>;
   }
 
   if (isLoading) {
