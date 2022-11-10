@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import Card from '../card';
 // import './index.scss';
 
-const Movies = ({ searchTerm, setSearchTerm }) => {
+const Artists = ({ searchTerm, setSearchTerm }) => {
   const [similarArtists, setSimilarArtists] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasErrored, setHasErrored] = useState(false);
@@ -11,7 +11,9 @@ const Movies = ({ searchTerm, setSearchTerm }) => {
     const fetchArtists = async (search) => {
       try {
         const similarArtistsFetch = await fetch(`http://localhost:8000/api/${search}`);
-        setSimilarArtists(similarArtistsFetch);
+        const artist = await similarArtistsFetch.json()
+        console.log(artist)
+        setSimilarArtists(artist);
         setSearchTerm('')
         setIsLoading(false)
       } catch (err) {
@@ -30,42 +32,13 @@ const Movies = ({ searchTerm, setSearchTerm }) => {
   }
 
   if (isLoading) {
-    return <>
-    <div className="container">
-    <div className="everlib-logo">
-    <i className="everlib-logo-first-bar"></i>
-    <i className="everlib-logo-second-bar"></i>
-    <i className="everlib-logo-third-bar"></i>
-    <i className="everlib-logo-fourth-bar"></i>
-    </div>
-    </div>
-    </>;
+    return <p>...Loading</p>;
   }
 
   return (
     <>
-    {/* <div className='cards'>
-    {similarArtists.slice(0, 5).map((artist, key) => {
-      return <Card key={key}
-      name={artist.name} 
-      images={(artist.images[2]).url} 
-      genres={artist.genres}
-      popularity={artist.popularity}
-      />
-    })}
-    </div>
-    <div className='cards-2'>
-    {similarArtists.slice(5, 10).map((artist, key) => {
-      return <Card key={key}
-      name={artist.name} 
-      images={(artist.images[2]).url} 
-      genres={artist.genres}
-      popularity={artist.popularity}
-      />
-    })}
-    </div> */}
     </>
   );
 };
 
-export default Movies;
+export default Artists;
