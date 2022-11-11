@@ -28,16 +28,6 @@ app.use(bodyParser.json())
 
 app.use(cors())
 
-app.post(('/'), async (req, res) => {
-  try {
-    const artist = new Artist({ name: req.body.name, image: req.body.image, similarArtists: req.body.similarArtists });
-    artist.save().then(() => console.log('Artist added to DB'));
-    res.status(201).json('Item created')
-  } catch {
-    return res.status(500).send('APP ERROR')
-  }
-})
-
 app.get(('/api/:artist'), async (req, res) => {
   try{
     const reqArtist = req.params.artist
