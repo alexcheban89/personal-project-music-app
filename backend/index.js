@@ -41,7 +41,7 @@ app.post(('/'), async (req, res) => {
 app.get(('/api/:artist'), async (req, res) => {
   try{
     const reqArtist = req.params.artist
-    console.log(`FETCHING ARTIST DATA FROM DB: ${reqArtist}`)
+    console.log(`FETCHING ARTIST FROM DB: ${reqArtist}`)
     const artist = await Artist.findOne({ name: { $regex: new RegExp(reqArtist), $options: 'i' }});
     if (artist) {
       return res.status(201).json(artist)

@@ -1,12 +1,17 @@
 .card {
     text-align: center;
     min-width: 220px;
-    background-color: rgb(26, 26, 26);
+    background-color: rgb(43, 43, 43);
     color: rgb(255, 255, 255);
     border-radius: 12px;
 }
 
+.card :hover {
+    border-radius: 12px;
+}
+
 img {
+    border-radius: 12px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0;
